@@ -6,7 +6,7 @@ import BookingModal from '../BookingModal/BookingModal';
 const AppointmentPicker = ({ selectDate }) => {
     const [appointments, setAppointments] = useState([])
     const [treatment, setTreatment] = useState({})
-    fetch('appointmentOption.json')
+    fetch('http://localhost:5000/appointmentoption')
         .then(res => res.json())
         .then(data => setAppointments(data))
     return (

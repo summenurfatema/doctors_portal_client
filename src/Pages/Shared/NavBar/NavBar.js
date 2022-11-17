@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../context/UserContext';
 
 const NavBar = () => {
+    const { user, logOut } = useContext(AuthContext)
     const menuItem = <>
 
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/about'>About</Link></li>
         <li><Link to='/appointment'>Appointment</Link></li>
         <li><Link to='/reviews'>Reviews</Link></li>
-        <li><Link to='/login'>Login</Link></li>
+
+        {
+            user?.email ? <li onClick={logOut}><Link>Sign Out</Link></li>
+                :
+                <li><Link to='/login'>Login</Link></li>
+        }
+
 
     </>
     return (
