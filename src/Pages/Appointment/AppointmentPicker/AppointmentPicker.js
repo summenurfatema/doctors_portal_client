@@ -21,7 +21,9 @@ const AppointmentPicker = ({ selectDate }) => {
                 }
             </div>
             <BookingModal
-                treatment={treatment}></BookingModal>
+                treatment={treatment}
+                selectDate={selectDate}
+            ></BookingModal>
         </div>
     );
 };
