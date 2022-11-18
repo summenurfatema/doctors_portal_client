@@ -1,7 +1,10 @@
 import { format } from 'date-fns';
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../../context/UserContext';
+
 
 const BookingModal = ({ treatment, selectDate }) => {
+    const { user } = useContext(AuthContext)
     const { name, slots } = treatment
     const date = format(selectDate, 'PP')
 
@@ -22,6 +25,23 @@ const BookingModal = ({ treatment, selectDate }) => {
             slot
 
         }
+        fetch(`http://localhost:8080/booking?date=${date}`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    alert('SuccessFull')
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => console.error(err))
         console.log(booking)
     }
     return (
@@ -43,8 +63,8 @@ const BookingModal = ({ treatment, selectDate }) => {
                             }
 
                         </select>
-                        <input name='naame' type="text" placeholder="Your name" className="input w-full" />
-                        <input name='email' type="text" placeholder="Email" className="input w-full" />
+                        <input name='naame' type="text" placeholder='Enter Name' className="input w-full" />
+                        <input name='email' type="text" value={user?.email} readOnly className="input w-full" />
                         <input name='phone' type="text" placeholder="Phone" className="input w-full" />
                         <button type='submit' className='btn '>Submit</button>
                     </form>

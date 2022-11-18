@@ -6,9 +6,14 @@ import BookingModal from '../BookingModal/BookingModal';
 const AppointmentPicker = ({ selectDate }) => {
     const [appointments, setAppointments] = useState([])
     const [treatment, setTreatment] = useState({})
-    fetch('http://localhost:5000/appointmentoption')
+
+    const date = format(selectDate, 'PP')
+
+    fetch(`http://localhost:8080/appointmentoption?date=${date}`)
         .then(res => res.json())
         .then(data => setAppointments(data))
+
+
     return (
         <div className='my-10'>
             <p className='text-center font-bold text-cyan-600'>Appointment Available on {format(selectDate, 'PP')} </p>
