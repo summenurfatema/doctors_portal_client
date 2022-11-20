@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/UserContext';
 
 const MyAppointment = () => {
@@ -6,10 +6,17 @@ const MyAppointment = () => {
     const { user } = useContext(AuthContext)
     const [bookings, setBookings] = useState([])
 
+    useEffect(() => {
+        fetch(`http://localhost:8080/bookings?email=${user?.email}`, {
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => setBookings(data))
 
-    fetch(`http://localhost:8080/bookings?email=${user?.email}`)
-        .then(res => res.json())
-        .then(data => setBookings(data))
+    }, [user?.email])
+
     return (
         <div className="overflow-x-auto">
             <table className="table w-full">

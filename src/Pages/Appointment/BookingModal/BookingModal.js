@@ -25,7 +25,9 @@ const BookingModal = ({ treatment, selectDate }) => {
             slot
 
         }
-        fetch(`http://localhost:8080/booking?date=${date}`, {
+        console.log(booking)
+
+        fetch(`http://localhost:8080/bookings?date=${date}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -55,8 +57,8 @@ const BookingModal = ({ treatment, selectDate }) => {
 
 
 
-                        <input name='slot' type="text" value={date} className="input w-full" />
-                        <select className="select select-info w-full">
+                        <input name='date' type="text" value={date} className="input w-full" />
+                        <select name='slot' className="select select-info w-full">
 
                             {
                                 slots?.map(slot => <option>{slot}</option>)

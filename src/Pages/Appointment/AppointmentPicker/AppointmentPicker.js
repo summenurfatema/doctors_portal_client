@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppointmentInfo from '../AppointmentInfo/AppointmentInfo';
 import BookingModal from '../BookingModal/BookingModal';
 
@@ -8,10 +8,14 @@ const AppointmentPicker = ({ selectDate }) => {
     const [treatment, setTreatment] = useState({})
 
     const date = format(selectDate, 'PP')
+    useEffect(() => {
 
-    fetch(`http://localhost:8080/appointmentoption?date=${date}`)
-        .then(res => res.json())
-        .then(data => setAppointments(data))
+        fetch(`http://localhost:8080/appointmentoption?date=${date}`)
+            .then(res => res.json())
+            .then(data => setAppointments(data))
+
+    }, [date])
+
 
 
     return (

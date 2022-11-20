@@ -15,17 +15,19 @@ const Signup = () => {
         const password = form.password.value
         const confirm = form.confirm.value
         console.log(name, email, password)
+
         createUser(email, password)
             .then(result => {
                 const user = result.user
                 const userInfo = {
-                    displayName: data.name
+                    displayName: name,
+                    email: email
                 }
                 updateUser(userInfo)
                     .then(() => {
-                        console.log(user.name, user.email)
-                        console.log(data.name, data.email)
-                        saveUser(data.name, data.email)
+
+                        saveUser(user.displayName, user.email)
+
                     })
                     .catch(error => console.error(error))
             })
@@ -37,12 +39,27 @@ const Signup = () => {
         fetch('http://localhost:8080/users', {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+
             },
             body: JSON.stringify(user)
         })
             .then(res => res.json())
-            .then(() => { })
+            .then((data) => {
+                getJwtToken(email)
+                console.log(data)
+            })
+    }
+    // jwt
+    const getJwtToken = email => {
+        fetch(`http://localhost:8080/jwt?email=${email}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.accessToken) {
+                    localStorage.setItem('accessToken', data.accessToken)
+                }
+            })
+
     }
     return (
         <div className='flex flex-col justify-center items-center'>
