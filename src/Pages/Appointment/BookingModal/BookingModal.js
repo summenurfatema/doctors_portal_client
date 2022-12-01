@@ -5,7 +5,7 @@ import { AuthContext } from '../../../context/UserContext';
 
 const BookingModal = ({ treatment, selectDate }) => {
     const { user } = useContext(AuthContext)
-    const { name, slots } = treatment
+    const { name, price, slots } = treatment
     const date = format(selectDate, 'PP')
 
     const handleModal = event => {
@@ -22,7 +22,8 @@ const BookingModal = ({ treatment, selectDate }) => {
             patient: naame,
             email,
             phone,
-            slot
+            slot,
+            price
 
         }
         console.log(booking)

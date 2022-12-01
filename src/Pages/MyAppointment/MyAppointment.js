@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/UserContext';
+import MyAppointmentCard from './MyAppointmentCard';
 
 const MyAppointment = () => {
 
     const { user } = useContext(AuthContext)
     const [bookings, setBookings] = useState([])
+    console.log(user?.email, bookings)
 
     useEffect(() => {
         fetch(`http://localhost:8080/bookings?email=${user?.email}`, {
@@ -28,20 +30,16 @@ const MyAppointment = () => {
                         <th>Email</th>
                         <th>Treatement</th>
                         <th>Date</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    {
-                        bookings.map((booking, i) =>
-                            <tr>
-                                <th>{i + 1}</th>
-                                <td>{booking.patient}</td>
-                                <td>{booking.email}</td>
-                                <td>{booking.treatment}</td>
-                                <td>{booking.appointmentDate}</td>
-                            </tr>
-                        )
+                    {bookings &&
+
+                        bookings.map((booking, i) => <MyAppointmentCard
+                            booking={booking}
+                            i={i}></MyAppointmentCard>)
                     }
 
                 </tbody>
